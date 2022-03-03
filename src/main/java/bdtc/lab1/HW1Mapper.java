@@ -7,7 +7,9 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
+
 import java.io.IOException;
+import java.security.MessageDigestSpi;
 
 
 public class HW1Mapper extends Mapper<LongWritable, Text, Text, IntWritable> {
@@ -18,12 +20,44 @@ public class HW1Mapper extends Mapper<LongWritable, Text, Text, IntWritable> {
     @Override
     protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
         String line = value.toString();
-        UserAgent userAgent = UserAgent.parseUserAgentString(line);
-        if (userAgent.getBrowser() == Browser.UNKNOWN) {
-            context.getCounter(CounterType.MALFORMED).increment(1);
-        } else {
-            word.set(userAgent.getBrowser().getName());
+
+        MessageType message = getTypeMessage(line);
+        if (message != null) {
+            word.set(message.toString());
             context.write(word, one);
         }
+//        UserAgent userAgent = UserAgent.parseUserAgentString(line);
+//        if (userAgent.getBrowser() == Browser.UNKNOWN) {
+//            context.getCounter(CounterType.MALFORMED).increment(1);
+//        } else {
+//            word.set(userAgent.getBrowser().getName());
+//            context.write(word, one);
+//        }
+    }
+
+    public static final MessageType getTypeMessage(String str) {
+        str = str.toUpperCase();
+
+        if (str.contains("EMERG") || str.contains("PANIC")) {
+            return MessageType.EMERG;
+        } else if(str.contains("CRIT")) {
+            return MessageType.CRIT;
+        } else if(str.contains("ALERT")) {
+            return MessageType.ALERT;
+        } else if(str.contains("DEBUG")) {
+            return MessageType.DEBUG;
+        } else if(str.contains("ERROR") || str.contains("ERR")) {
+            return MessageType.ERROR;
+        } else if(str.contains("INFO")) {
+            return MessageType.INFO;
+        } else if(str.contains("NOTICE")) {
+            return MessageType.NOTICE;
+        } else if(str.contains("WARN") || str.contains("WARNING")) {
+            return MessageType.WARN;
+        } else {
+            return null;
+        }
+
+
     }
 }

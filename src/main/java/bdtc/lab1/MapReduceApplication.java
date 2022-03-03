@@ -39,7 +39,7 @@ public class MapReduceApplication {
         job.waitForCompletion(true);
         log.info("=====================JOB ENDED=====================");
         // проверяем статистику по счётчикам
-        Counter counter = job.getCounters().findCounter(CounterType.MALFORMED);
-        log.info("=====================COUNTERS " + counter.getName() + ": " + counter.getValue() + "=====================");
+//        Counter counter = job.getCounters().findCounter(CounterType.MALFORMED);
+//        log.info("=====================COUNTERS " + counter.getName() + ": " + counter.getValue() + "=====================");
     }
 }
