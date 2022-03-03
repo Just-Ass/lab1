@@ -16,7 +16,6 @@ import java.security.MessageDigestSpi;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class MapReduceTest {
 
     private MapDriver<LongWritable, Text, Text, IntWritable> mapDriver;

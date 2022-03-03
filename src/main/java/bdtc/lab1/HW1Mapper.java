@@ -20,21 +20,14 @@ public class HW1Mapper extends Mapper<LongWritable, Text, Text, IntWritable> {
     @Override
     protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
         String line = value.toString();
-
+//Определяем тип сообщений
         MessageType message = getTypeMessage(line);
         if (message != null) {
             word.set(message.toString());
             context.write(word, one);
         }
-//        UserAgent userAgent = UserAgent.parseUserAgentString(line);
-//        if (userAgent.getBrowser() == Browser.UNKNOWN) {
-//            context.getCounter(CounterType.MALFORMED).increment(1);
-//        } else {
-//            word.set(userAgent.getBrowser().getName());
-//            context.write(word, one);
-//        }
     }
-
+//парсинг строки на наличие сообщений
     public static final MessageType getTypeMessage(String str) {
         str = str.toUpperCase();
 
@@ -57,7 +50,5 @@ public class HW1Mapper extends Mapper<LongWritable, Text, Text, IntWritable> {
         } else {
             return null;
         }
-
-
     }
 }

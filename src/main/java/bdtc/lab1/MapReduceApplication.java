@@ -24,7 +24,7 @@ public class MapReduceApplication {
         // задаём выходной файл, разделенный запятыми - формат CSV в соответствии с заданием
         conf.set("mapreduce.output.textoutputformat.separator", ",");
 
-        Job job = Job.getInstance(conf, "browser count");
+        Job job = Job.getInstance(conf, "Message count");
         job.setJarByClass(MapReduceApplication.class);
         job.setMapperClass(HW1Mapper.class);
         job.setReducerClass(HW1Reducer.class);
@@ -38,8 +38,5 @@ public class MapReduceApplication {
         log.info("=====================JOB STARTED=====================");
         job.waitForCompletion(true);
         log.info("=====================JOB ENDED=====================");
-        // проверяем статистику по счётчикам
-//        Counter counter = job.getCounters().findCounter(CounterType.MALFORMED);
-//        log.info("=====================COUNTERS " + counter.getName() + ": " + counter.getValue() + "=====================");
-    }
+   }
 }
